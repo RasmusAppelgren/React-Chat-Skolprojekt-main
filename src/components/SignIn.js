@@ -18,6 +18,7 @@ function SignIn() {
             .then((userCredential) => {
                 console.log("Inloggning lyckades")
                 const user = userCredential.user;
+                // Lägga till användare i users i DB
 
             })
             .catch((error) => {
