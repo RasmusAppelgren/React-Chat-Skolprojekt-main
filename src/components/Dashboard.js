@@ -2,17 +2,26 @@ import React from 'react';
 import { auth, provider } from '../firebase-config'
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from 'react-firebase-hooks/auth';
-import SignOut from './SignOut';
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import Search from './Search';
 
 
 
 function Dashboard() {
-    const navigate = useNavigate();
-    const [user] = useAuthState(auth)
+    const auth = getAuth();
+    function SignOut() {
+        console.log("Loggar ut")
+        signOut(auth)
+    }
+    onAuthStateChanged(auth, (user) => {
+        console.log(user)
+    })
     return (
         <>
             <p>DASHBOARD</p>
-            <SignOut />
+            <Search />
+            <button onClick={SignOut}>Logga ut</button>
+
         </>
 
 

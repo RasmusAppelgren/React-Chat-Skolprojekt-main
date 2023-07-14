@@ -1,28 +1,44 @@
 import React, { useState } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase-config"
 
 
 const Register = () => {
+    const navigate = useNavigate()
     const auth = getAuth();
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const username = e.target[0].value;
+        const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
+        await createUserWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                /*
+                Användare skapas i Firebase. Sedan skapas tabellen "users" så
+                vi kan ha koll på vilka användare (användarnamn, mail och unikt id) 
+                som har registrerat sig. 
+                */
                 const user = userCredential.user;
+                await setDoc(doc(db, "users", user.uid), {
+                    displayName,
+                    email,
+                    uid: user.uid
+                });
+                await setDoc(doc(db, "activeChats", user.uid), {
+                });
+                navigate('/Dashboard')
+
+
             })
             .catch((error) => {
                 const errorCode = error.code;
                 setError(errorCode)
             });
-
     };
 
     return (
@@ -31,7 +47,7 @@ const Register = () => {
                 <input required type="text" placeholder="Användarnamn" />
                 <input required type="email" placeholder="Email" />
                 <input required type="password" placeholder="Lösenord" />
-                <button>Sign up</button>
+                <button>Skapa konto</button>
                 <p>
                     Har du redan ett konto?<Link to="/Signin">Logga in</Link>
                 </p>
