@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase-config"
@@ -23,6 +23,9 @@ const Register = () => {
                 vi kan ha koll på vilka användare (användarnamn, mail och unikt id) 
                 som har registrerat sig. 
                 */
+                await updateProfile(auth.currentUser, { displayName: displayName }).catch(
+                    (err) => console.log(err)
+                );
                 const user = userCredential.user;
                 await setDoc(doc(db, "users", user.uid), {
                     displayName,

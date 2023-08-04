@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import Search from './Search';
+import Activechats from './Activechats';
 
 
 
@@ -20,6 +21,7 @@ function Dashboard() {
         <>
             <p>DASHBOARD</p>
             <Search />
+            <Activechats />
             <button onClick={SignOut}>Logga ut</button>
 
         </>
