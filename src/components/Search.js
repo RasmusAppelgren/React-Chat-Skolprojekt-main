@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { collection, query, where, getDocs, doc, getDoc, updateDoc, serverTimestamp, setDoc, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, addDoc } from "firebase/firestore";
 import { db } from "../firebase-config"
 import { useContext } from "react";
 import { AuthContext } from "../context/Auth-context"
@@ -10,6 +10,7 @@ import Chat from './Chat';
 function Search() {
   const [user, setUser] = useState('')
   const usersRef = collection(db, "users");
+  const userChatsRef = collection(db, "userChats");
   const { currentUser } = useContext(AuthContext)
   const [chatStatus, setChatStatus] = useState(false)
   const [chatID, setChatID] = useState('')
@@ -39,8 +40,10 @@ function Search() {
     setChatID(chatID)
     const res = await getDoc(doc(db, "chats", chatID));
     if (!res.exists()) {
-      console.log("OPEN CHAT")
+      console.log("Create new chat and userChats")
       await setDoc(doc(db, "chats", chatID), { messages: [] });
+      await setDoc(doc(db, "userChats", currentUser.uid), { chatId: chatID, member: user.uid });
+      await setDoc(doc(db, "userChats", user.uid), { chatId: chatID, member: currentUser.uid });
       console.log("Collection created")
       setChatStatus(true)
     } else {

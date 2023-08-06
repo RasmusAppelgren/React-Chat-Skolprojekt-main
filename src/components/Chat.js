@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { db, auth } from '../firebase-config'
 import Message from './Message'
-import { collection, query, limit, orderBy, onSnapshot, doc, updateDoc, arrayUnion, Timestamp } from "firebase/firestore";
+import { onSnapshot, doc, updateDoc, arrayUnion, Timestamp } from "firebase/firestore";
 import { useContext } from "react";
 import { AuthContext } from "../context/Auth-context"
 
