@@ -10,10 +10,11 @@ import Chat from './Chat';
 function Search() {
   const [user, setUser] = useState('')
   const usersRef = collection(db, "users");
-  const userChatsRef = collection(db, "userChats");
   const { currentUser } = useContext(AuthContext)
   const [chatStatus, setChatStatus] = useState(false)
   const [chatID, setChatID] = useState('')
+
+  console.log("FROM SEARCH: " + currentUser.uid)
 
 
   const handleSubmit = async (e) => {

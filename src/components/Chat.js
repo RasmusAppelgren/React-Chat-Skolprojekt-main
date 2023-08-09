@@ -19,7 +19,7 @@ const Chat = (props) => {
         }
     }, [props.chatID]);
 
-    console.log(messages)
+
 
     const send = async (e) => {
         console.log("SEND MESSAGE")
