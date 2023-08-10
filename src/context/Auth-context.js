@@ -15,7 +15,12 @@ export const AuthContextProvider = ({ children }) => {
     }, []);
 
     if (loading) {
-        return <p>Loading</p>
+        return
+        <>
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </>
     }
 
     return (

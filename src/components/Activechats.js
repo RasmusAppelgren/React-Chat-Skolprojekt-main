@@ -1,12 +1,12 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/Auth-context"
-import { doc, onSnapshot, collection } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase-config"
-import Chats from "./Chats";
 
 
 
-function Activechats() {
+
+function Activechats({ openActiveChat }) {
     const { currentUser } = useContext(AuthContext);
     const [activeChat, setActiveChat] = useState([]);
 
@@ -14,26 +14,25 @@ function Activechats() {
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
             doc.exists() && setActiveChat(doc.data().chat);
-            console.log("ACTIVE CHATS " + doc.data().chat)
         });
         return () => {
             unSub();
         }
     }, [currentUser.uid]);
 
+    const ClickHandler = (m) => {
+        console.log("ACTIVECHATS" + m.chatId)
+        openActiveChat(m.chatId)
 
-
-
-
-    console.log(activeChat)
-
+    }
 
     return (
         <>
             <p>Active Chats</p>
 
             {activeChat.map((m) => (
-                <Chats data={m} key={m.id} />
+                <p onClick={() => ClickHandler(m)}>{m.member}</p>
+
             ))}
 
 

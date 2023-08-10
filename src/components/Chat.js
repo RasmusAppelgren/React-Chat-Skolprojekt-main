@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/Auth-context"
 
 const Chat = (props) => {
+    console.log("CHAT    -------->    " + props.chatID)
     const [msg, setMsg] = useState('')
     const { currentUser } = useContext(AuthContext)
     const [messages, setMessages] = useState([]);
