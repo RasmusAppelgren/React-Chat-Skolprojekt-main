@@ -26,14 +26,13 @@ const Register = () => {
                 await updateProfile(auth.currentUser, { displayName: displayName }).catch(
                     (err) => console.log(err)
                 );
-                const user = userCredential.user;
-                await setDoc(doc(db, "users", user.uid), {
+                const currentUser = userCredential.user;
+                await setDoc(doc(db, "users", currentUser.uid), {
                     displayName,
                     email,
-                    uid: user.uid
+                    uid: currentUser.uid
                 });
-                await setDoc(doc(db, "activeChats", user.uid), {
-                });
+                await setDoc(doc(db, "userChats", currentUser.uid), { chatId: "", member: "" });
                 navigate('/Dashboard')
 
 

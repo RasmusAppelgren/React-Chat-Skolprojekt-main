@@ -2,20 +2,19 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/Auth-context"
 import { doc, onSnapshot, collection } from "firebase/firestore";
 import { db } from "../firebase-config"
-import Message from "./Message";
+import Chats from "./Chats";
 
 
 
 function Activechats() {
     const { currentUser } = useContext(AuthContext);
-    const chatsRef = collection(db, currentUser.uid);
-    const [messages, setMessages] = useState([]);
+    const [activeChat, setActiveChat] = useState([]);
 
 
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-            doc.exists() && setMessages(doc.data().messages);
-            console.log(doc.data().chatId)
+            doc.exists() && setActiveChat(doc.data().chat);
+            console.log("ACTIVE CHATS " + doc.data().chat)
         });
         return () => {
             unSub();
@@ -26,16 +25,19 @@ function Activechats() {
 
 
 
-
+    console.log(activeChat)
 
 
     return (
         <>
             <p>Active Chats</p>
-            {messages && messages.map((m) => (
-                <Message message={m} key={m.id} />
 
+            {activeChat.map((m) => (
+                <Chats data={m} key={m.id} />
             ))}
+
+
+
         </>
 
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, addDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase-config"
 import { useContext } from "react";
 import { AuthContext } from "../context/Auth-context"
@@ -19,6 +19,7 @@ function Search() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setChatStatus(false)
     const searchQ = e.target[0].value;
     const q = query(usersRef, where("displayName", "==", searchQ));
     const querySnapshot = await getDocs(q);
@@ -43,8 +44,18 @@ function Search() {
     if (!res.exists()) {
       console.log("Create new chat and userChats")
       await setDoc(doc(db, "chats", chatID), { messages: [] });
-      await setDoc(doc(db, "userChats", currentUser.uid), { chatId: chatID, member: user.uid });
-      await setDoc(doc(db, "userChats", user.uid), { chatId: chatID, member: currentUser.uid });
+      await updateDoc(doc(db, "userChats", currentUser.uid), {
+        chat: arrayUnion({
+          chatId: chatID,
+          member: user.displayName
+        })
+      })
+      await updateDoc(doc(db, "userChats", user.uid), {
+        chat: arrayUnion({
+          chatId: chatID,
+          member: currentUser.displayName
+        })
+      })
       console.log("Collection created")
       setChatStatus(true)
     } else {
