@@ -11,36 +11,52 @@ function Activechats({ openActiveChat }) {
     const [activeChat, setActiveChat] = useState([]);
 
 
+
+
+
+
+
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-            doc.exists() && setActiveChat(doc.data().chat);
+            const res = doc.data().chat
+            setActiveChat(res)
+
         });
         return () => {
             unSub();
         }
     }, [currentUser.uid]);
 
+
+
     const ClickHandler = (m) => {
         console.log("ACTIVECHATS" + m.chatId)
         openActiveChat(m.chatId)
 
     }
-
-    return (
-        <>
-            <p>Active Chats</p>
-
-            {activeChat.map((m) => (
-                <p onClick={() => ClickHandler(m)}>{m.member}</p>
-
-            ))}
-
-
-
-        </>
+    if (!activeChat) {
+        return (
+            <p>No active chats</p>
+        )
+    } else {
+        return (
+            <>
+                <p>Active Chats</p>
+                {activeChat.map(d => (<p key={d.chatId} onClick={() => ClickHandler(d)}>{d.member}</p>))}
 
 
-    )
+
+
+            </>
+
+
+        )
+
+    }
+
+
+
+
 }
 
 export default Activechats;

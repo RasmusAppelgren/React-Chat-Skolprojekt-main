@@ -60,14 +60,14 @@ function Dashboard() {
 
     return (
         <>
-            <nav class="navbar bg-body-tertiary">
-                <div class="container-fluid">
-                    <span class="navbar-brand mb-0 h1">Chat</span>
+            <nav className="navbar bg-body-tertiary">
+                <div className="container-fluid">
+                    <span className="navbar-brand mb-0 h1">Chat</span>
                     <button onClick={SignOut} className="btn btn-outline-dark btn-sm">Logga ut</button>
 
                 </div>
             </nav>
-            <div class="container">
+            <div className="container">
                 <Search openChat={openChat} />
                 <Activechats openActiveChat={openActiveChat} />
                 {chatStatus && (
@@ -78,7 +78,7 @@ function Dashboard() {
             </div>
             <footer id="sticky-footer" className="flex-shrink-0 py-4 bg-dark text-white-50">
                 <div className="container text-center">
-                    <small>Copyright &copy; Your Website</small>
+                    <small>React Firebase chat</small>
                 </div>
             </footer>
 

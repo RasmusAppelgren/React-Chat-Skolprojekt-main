@@ -30,15 +30,16 @@ function Search({ openChat }) {
 
   return (
     <>
-      <form class="d-flex" role="search" onSubmit={handleSubmit}>
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+      <form className="d-flex" role="search" onSubmit={handleSubmit}>
+        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+        <button className="btn btn-outline-success" type="submit">Search</button>
       </form>
-      <div className='container'>
-        {user && (
-          <span onClick={ClickHandler}>{user.displayName}</span>
-        )}
-      </div>
+
+      {user && (
+        <span onClick={ClickHandler}>{user.displayName}</span>
+      )}
+
+
 
 
 

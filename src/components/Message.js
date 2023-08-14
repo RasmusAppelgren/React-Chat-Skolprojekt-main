@@ -5,8 +5,11 @@ function Message(props) {
 
     return (
         <>
-            <p>{props.message.text}</p>
-            <p>{props.message.displayName}</p>
+            <div key={props.key}>
+                <p>{props.message.text}</p>
+            </div>
+
+
         </>
     )
 }

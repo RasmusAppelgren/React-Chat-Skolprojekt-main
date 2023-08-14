@@ -10,6 +10,7 @@ const Register = () => {
     const auth = getAuth();
     const [error, setError] = useState('');
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const displayName = e.target[0].value;
@@ -32,7 +33,9 @@ const Register = () => {
                     email,
                     uid: currentUser.uid
                 });
-                await setDoc(doc(db, "userChats", currentUser.uid), { chatId: "", member: "" });
+                await setDoc(doc(db, "userChats", currentUser.uid), {
+                    chatId: "", member: ""
+                });
                 navigate('/Dashboard')
 
 
