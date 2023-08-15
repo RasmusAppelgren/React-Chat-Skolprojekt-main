@@ -5,7 +5,7 @@ function Message(props) {
 
     return (
         <>
-            <div key={props.key}>
+            <div>
                 <p>{props.message.text}</p>
             </div>
 

@@ -30,7 +30,6 @@ function Activechats({ openActiveChat }) {
 
 
     const ClickHandler = (m) => {
-        console.log("ACTIVECHATS" + m.chatId)
         openActiveChat(m.chatId)
 
     }

@@ -6,9 +6,8 @@ import { useContext } from "react";
 import { AuthContext } from "../context/Auth-context"
 
 const Chat = (props) => {
-    console.log("CHAT    -------->    " + props.chatID)
-    const [msg, setMsg] = useState('')
-    const { currentUser } = useContext(AuthContext)
+    const [msg, setMsg] = useState('');
+    const { currentUser } = useContext(AuthContext);
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
@@ -20,12 +19,10 @@ const Chat = (props) => {
         }
     }, [props.chatID]);
 
-
-
     const send = async (e) => {
-        console.log("SEND MESSAGE")
         await updateDoc(doc(db, "chats", props.chatID), {
             messages: arrayUnion({
+                id: uniq,
                 text: msg,
                 senderId: currentUser.uid,
                 date: Timestamp.now(),
@@ -34,6 +31,7 @@ const Chat = (props) => {
         })
         setMsg('');
     }
+
     return (
         <>
             <div>
@@ -42,7 +40,7 @@ const Chat = (props) => {
             </div>
             <div className="messages">
                 {messages.map((m) => (
-                    <Message message={m} key={m.id} />
+                    <Message message={m} key={m.date} />
                 ))}
             </div>
         </>

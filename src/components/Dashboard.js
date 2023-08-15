@@ -19,14 +19,10 @@ function Dashboard() {
         console.log("Loggar ut")
         signOut(auth)
     }
-    onAuthStateChanged(auth, (user) => {
-        console.log(user)
-    })
+
 
 
     const openChat = async (user) => {
-        console.log("OPENCHAT " + currentUser.uid)
-        console.log("OPENCHAT " + user.uid)
         const chatID = currentUser.uid < user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid
         setChatID(chatID)
         setUser(user)
