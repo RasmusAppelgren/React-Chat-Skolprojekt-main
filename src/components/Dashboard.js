@@ -6,6 +6,7 @@ import { collection, doc, getDoc, updateDoc, setDoc, arrayUnion } from "firebase
 import { db } from "../firebase-config"
 import { AuthContext } from "../context/Auth-context"
 import Chat from "./Chat";
+import { ArrowLeft } from 'react-bootstrap-icons';
 
 
 function Dashboard() {
@@ -15,11 +16,14 @@ function Dashboard() {
     const [chatStatus, setChatStatus] = useState(false)
     const [chatID, setChatID] = useState('')
     const auth = getAuth();
+
     function SignOut() {
         console.log("Loggar ut")
         signOut(auth)
     }
-
+    const handleToggle = () => {
+        setChatStatus((current) => !current);
+    };
 
 
     const openChat = async (user) => {
@@ -52,41 +56,49 @@ function Dashboard() {
         setChatID(id)
         setChatStatus(true)
     }
+    console.log(user.uid)
 
-
-    return (
-        <>
-            <nav className="navbar bg-body-tertiary">
-                <div className="container-fluid">
-                    <span className="navbar-brand mb-0 h1">Chat</span>
-                    <button onClick={SignOut} className="btn btn-outline-dark btn-sm">Logga ut</button>
-
-                </div>
-            </nav>
-            <div className="container">
-                <Search openChat={openChat} />
-                <Activechats openActiveChat={openActiveChat} />
-                {chatStatus && (
+    if (chatStatus) {
+        return (
+            <>
+                <nav className="navbar bg-body-tertiary sticky-top">
+                    <div className="container-fluid">
+                        <i onClick={handleToggle}>
+                            <ArrowLeft color="royalblue" size={30} />
+                        </i>
+                        <p>{user.displayName}</p>
+                        <span className="navbar-brand mb-0 h1">Chat</span>
+                    </div>
+                </nav>
+                <div className="">
                     <Chat chatID={chatID} />
-                )}
-
-
-            </div>
-            <footer id="sticky-footer" className="flex-shrink-0 py-4 bg-dark text-white-50">
-                <div className="container text-center">
-                    <small>React Firebase chat</small>
                 </div>
-            </footer>
+            </>
+        )
+
+    } else {
+        return (
+            <>
+                <nav className="navbar bg-body-tertiary sticky-top">
+                    <div className="container-fluid">
+                        <span className="navbar-brand mb-0 h1">Dashboard</span>
+                        <button onClick={SignOut} className="btn btn-outline-dark btn-sm">Logga ut</button>
+                    </div>
+                </nav>
+                <div className="container">
+                    <Search openChat={openChat} />
+                    <Activechats openActiveChat={openActiveChat} />
+                </div>
+                <footer id="sticky-footer" className="flex-shrink-0 py-4 bg-dark text-white-50">
+                    <div className="container text-center">
+                        <small>React Firebase chat</small>
+                    </div>
+                </footer>
+            </>
+        )
+    }
 
 
-
-
-
-
-        </>
-
-
-    )
 }
 
 export default Dashboard;
