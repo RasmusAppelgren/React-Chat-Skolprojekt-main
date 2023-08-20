@@ -74,7 +74,7 @@ function Dashboard() {
     } else {
         return (
             <>
-                <nav className="navbar  sticky-top">
+                <nav className="navbar">
                     <div className="container-fluid">
                         <img src="/logo.png" className="img-fluid mx-auto" />
                     </div>
