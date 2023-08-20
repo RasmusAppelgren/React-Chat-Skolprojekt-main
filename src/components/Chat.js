@@ -4,6 +4,7 @@ import Message from './Message'
 import { onSnapshot, doc, updateDoc, arrayUnion, Timestamp } from "firebase/firestore";
 import { useContext } from "react";
 import { AuthContext } from "../context/Auth-context"
+import { ArrowLeft } from 'react-bootstrap-icons';
 
 
 const Chat = (props) => {
@@ -32,20 +33,33 @@ const Chat = (props) => {
         setMsg('');
     }
 
+
+
     return (
         <>
-            <div className="messages overflow-auto">
-                {messages.map((m) => (
-                    <Message message={m} key={m.date} />
-                ))}
+            <div className='row gx-0'>
+                <div className="col overflow-auto pb-5">
+                    {messages.map((m) => (
+                        <Message message={m} key={m.date} />
+                    ))}
+                </div>
+            </div>
+            <div className='row gx-0'>
+                <div className='col pb-5'>
+
+                </div>
+            </div>
+            <div className='row gx-0'>
+                <div className="p-3 text-info" id="message">
+                    <div className="input-group">
+                        <input placeholder='Meddelande...' type="text" className="form-control text-info" aria-label="" aria-describedby="button-addon2" value={msg} onChange={(e) => setMsg(e.target.value)} />
+                        <button onClick={send} className="btn btn-outline-info" type="button" id="button-addon2">Skicka</button>
+                    </div>
+                </div>
             </div>
 
-            <footer className="sticky-bottom p-3 mb-2 bg-light text-dark">
-                <div className="input-group mb-3">
-                    <input placeholder='Meddelande...' type="text" className="form-control" aria-label="Sizing example input" aria-describedby="button-addon2" value={msg} onChange={(e) => setMsg(e.target.value)} />
-                    <button onClick={send} className="btn btn-outline-secondary" type="button" id="button-addon2">Skicka</button>
-                </div>
-            </footer>
+
+
         </>
     );
 };

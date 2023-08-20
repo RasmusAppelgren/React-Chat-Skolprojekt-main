@@ -1,8 +1,8 @@
-import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import Search from './Search';
 import Activechats from './Activechats';
 import React, { useState, useContext } from 'react';
-import { collection, doc, getDoc, updateDoc, setDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase-config"
 import { AuthContext } from "../context/Auth-context"
 import Chat from "./Chat";
@@ -11,7 +11,6 @@ import { ArrowLeft } from 'react-bootstrap-icons';
 
 function Dashboard() {
     const [user, setUser] = useState('')
-    const usersRef = collection(db, "users");
     const { currentUser } = useContext(AuthContext)
     const [chatStatus, setChatStatus] = useState(false)
     const [chatID, setChatID] = useState('')
@@ -24,7 +23,6 @@ function Dashboard() {
     const handleToggle = () => {
         setChatStatus((current) => !current);
     };
-
 
     const openChat = async (user) => {
         const chatID = currentUser.uid < user.uid ? currentUser.uid + user.uid : user.uid + currentUser.uid
@@ -56,44 +54,52 @@ function Dashboard() {
         setChatID(id)
         setChatStatus(true)
     }
-    console.log(user.uid)
+
 
     if (chatStatus) {
         return (
             <>
-                <nav className="navbar bg-body-tertiary sticky-top">
+                <nav className="bg-light sticky-top">
                     <div className="container-fluid">
                         <i onClick={handleToggle}>
-                            <ArrowLeft color="royalblue" size={30} />
+                            <ArrowLeft color="royalblue" size={40} />
                         </i>
-                        <p>{user.displayName}</p>
-                        <span className="navbar-brand mb-0 h1">Chat</span>
+
                     </div>
                 </nav>
-                <div className="">
-                    <Chat chatID={chatID} />
-                </div>
+                <Chat chatID={chatID} handleToggle={handleToggle} />
             </>
         )
 
     } else {
         return (
             <>
-                <nav className="navbar bg-body-tertiary sticky-top">
+                <nav className="navbar  sticky-top">
                     <div className="container-fluid">
-                        <span className="navbar-brand mb-0 h1">Dashboard</span>
-                        <button onClick={SignOut} className="btn btn-outline-dark btn-sm">Logga ut</button>
+                        <img src="/logo.png" className="img-fluid mx-auto" />
                     </div>
                 </nav>
                 <div className="container">
-                    <Search openChat={openChat} />
-                    <Activechats openActiveChat={openActiveChat} />
-                </div>
-                <footer id="sticky-footer" className="flex-shrink-0 py-4 bg-dark text-white-50">
-                    <div className="container text-center">
-                        <small>React Firebase chat</small>
+                    <div className="row">
+                        <div className="col-12">
+                            <Search openChat={openChat} />
+                        </div>
                     </div>
-                </footer>
+                    <div className="row">
+                        <div className="col-12">
+                            <Activechats openActiveChat={openActiveChat} />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="fixed-bottom bg-light">
+                    <div className="row">
+                        <div className="col text-center pt-3 pb-3">
+                            <button onClick={SignOut} className="btn btn-outline-info btn-sm">Logga ut</button>
+                        </div>
+                    </div>
+                </div>
+
             </>
         )
     }

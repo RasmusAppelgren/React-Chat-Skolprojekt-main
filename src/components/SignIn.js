@@ -31,15 +31,40 @@ function SignIn() {
     };
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <input required type="email" placeholder="Email" />
-                <input required type="password" placeholder="Lösenord" />
-                <button>Logga in</button>
-                <p>
-                    Saknar du konto?<Link to="/Register">Registrera</Link>
-                </p>
-                {error && <span>{error}</span>}
-            </form>
+
+            <div className="d-flex align-items-center justify-content-center appBackground" style={{ minHeight: '100vh' }}>
+                <div className="shadow bg-white rounded w-75 ">
+                    <div className="container">
+                        <div className="row p-2">
+                            <img src="/logo.png" />
+                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="row p-2">
+                                <input required type="email" placeholder="Email" className="border-0" />
+                            </div>
+                            <div className="row p-2">
+                                <input required type="password" placeholder="Lösenord" className="border-0" />
+                            </div>
+                            <div className="row p-2">
+                                <button className="btn btn-light">Logga in</button>
+                            </div>
+                            <div className="row p-2">
+                                <p className="text-center">
+                                    Saknar du konto? <Link to="/Register" className="link-info text-decoration-none">Registrera</Link>
+                                </p>
+                            </div>
+                            {error &&
+                                <div className="row p-2">
+                                    <span>{error}</span>
+                                </div>
+                            }
+                        </form>
+                    </div>
+
+                </div >
+            </div>
+
+
         </>
 
 

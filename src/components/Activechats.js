@@ -10,12 +10,6 @@ function Activechats({ openActiveChat }) {
     const { currentUser } = useContext(AuthContext);
     const [activeChat, setActiveChat] = useState([]);
 
-
-
-
-
-
-
     useEffect(() => {
         const unSub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
             const res = doc.data().chat
@@ -35,25 +29,33 @@ function Activechats({ openActiveChat }) {
     }
     if (!activeChat) {
         return (
-            <p>No active chats</p>
+            <div className="row">
+                <div className="col">
+                    <p>Inga konversationer</p>
+                </div>
+            </div>
         )
     } else {
         return (
             <>
-                <p>Active Chats</p>
-                {activeChat.map(d => (<p key={d.chatId} onClick={() => ClickHandler(d)}>{d.member}</p>))}
-
-
-
-
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            {activeChat.map(d => (<>
+                                <div className="col">
+                                    <p className="border-bottomç" key={d.chatId} onClick={() => ClickHandler(d)}>{d.member}</p>
+                                    <hr class="hr" />
+                                </div>
+                            </>))}
+                        </div>
+                    </div>
+                </div>
             </>
 
 
         )
 
     }
-
-
 
 
 }
