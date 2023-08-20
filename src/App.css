@@ -3,12 +3,9 @@
 }
 
 
-@media screen and (max-width: 600px) {
-    #message {
-        bottom: 0;
-        position: fixed;
-        background: #f0f0f0;
-    }
 
-
+#message {
+    bottom: 0;
+    position: fixed;
+    background: #f0f0f0;
 }
